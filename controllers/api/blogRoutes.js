@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Blog } = require('../../models');
+const { Blog } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // blogpost
@@ -7,11 +7,22 @@ router.post('/', withAuth, async (req, res) => {
     try {
       const newBlog = await Blog.create({
         ...req.body,
-        user_id: req.session.id,
+        user_id: req.session.user_id,
       });
   
       res.status(200).json(newBlog);
     } catch (err) {
+      res.status(400).json(err);
+    }
+  });
+
+  router.get("/", async (req, res) => {
+    try {
+      const blogData = await Blog.findAll()
+      const blogs = blogData.map((blog) => blog.get({plain: true}));
+      res.status(200).json(blogs);
+    }
+    catch (err) {
       res.status(400).json(err);
     }
   });
@@ -38,7 +49,13 @@ router.post('/', withAuth, async (req, res) => {
 
 router.put('/:id', withAuth, async (req, res) => {
     try {
-      const blogData = await Blog.update(req.body, {
+      const blogData = await Blog.update( 
+        {
+          title: req.body.title,
+          description: req.body.description,
+          content: req.body.content,
+        },
+        {
         where: {
           id: req.params.id
         },
