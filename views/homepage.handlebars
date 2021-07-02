@@ -1,3 +1,12 @@
 {{#each blogs as |blog|}}
-{{>blog-details}}
+<div class="card text-center padding-bottom">
+  <div class="card-body">
+    <h4 class="card-title">{{blog.title}}</h4>
+    <p class="card-text">
+      {{blog.description}}
+    </p>
+    <a href="/post/{{blog.id}}" class="btn btn-primary">Heres More</a>
+  </div>
+  <div class="card-footer text-muted">By {{blog.user.name}} {{format_date blog.date_created}}</div>
+</div>
 {{/each}}

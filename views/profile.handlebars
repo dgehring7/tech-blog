@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <p>Create a new blog post:</p>
+      <form class="form new-post-form">
+        <div class="form-group">
+          <label for="post-name">Title:</label>
+          <input class="form-input" type="text" id="post-name" name="post-name" />
+        </div>
+        <div class="form-group">
+          <label for="post-description">Description:</label>
+          <textarea class="form-input" id="post-description" name="post-content" placeholder="Enter a brief description:"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="post-content">Content:</label>
+          <textarea class="form-input" id="post-content" name="post-content"></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{#if blog.length}}
+<div class="container post-list">
+<h2>Current Blog Posts:</h2>
+{{#each blogs as |blog|}}
+<div class="card text-center padding-bottom">
+  <div class="card-body">
+    <h5 class="card-title">{{name}}</h5>
+    <p class="card-text">
+      {{blog_post}}
+    </p>
+    <a href="/blog/{{blog.id}}" class="btn btn-success">View Post</a>
+    <a href="/update/{{blog.id}}" class="btn btn-warning">Update</a>
+    <button id="update" class="btn btn-danger" data-id="{{post.id}}">Update</button>
+    <button id="delete" class="btn btn-danger" data-id="{{blog.id}}">Delete</button>
+  </div>
+  <div class="card-footer text-muted">{{format_date date_created}}</div>
+</div>
+{{/each}}
+{{/if}}
+</div>
+<script src="/js/dashboard.js"></script>
