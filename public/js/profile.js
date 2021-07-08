@@ -8,7 +8,7 @@ const newFormHandler = async (event) => {
     if (name && blog_post && description) {
       const response = await fetch(`/api/blogs`, {
         method: 'POST',
-        body: JSON.stringify({ name, blog_post, description }),
+        body: JSON.stringify({ name: name, blog_post: blog_post, description: description }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -33,7 +33,7 @@ const newFormHandler = async (event) => {
       if (response.ok) {
         document.location.replace('/profile');
       } else {
-        alert('Failed to delete project');
+        alert('Failed to delete post');
       }
     }
   };

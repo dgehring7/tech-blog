@@ -3,6 +3,7 @@ const { User } = require('../../models');
 
 router.post('/signup', async (req, res) => {
     try {
+    console.log('signed up');
         console.log("got a post");
       const userData = await User.create ({
           name: req.body.name, 
@@ -24,6 +25,7 @@ router.post('/signup', async (req, res) => {
 
   router.post('/login', async (req, res) => {
     try {
+        console.log('logged up');
         const validName = await User.findOne({where: {name: req.body.name}});
         // console.log('user',validUsername);
         if (!validName) {
