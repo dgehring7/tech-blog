@@ -1,5 +1,6 @@
-{{#each blogs as |blog|}}
+
 <div class="card text-center padding-bottom">
+  {{#each blogs as |blog|}}
   <div class="card-body">
     <h4 class="card-title">{{blog.title}}</h4>
     <p class="card-text">
@@ -8,5 +9,10 @@
     <a href="/blog/{{blog.id}}" class="btn btn-primary">Heres More</a>
   </div>
   <div class="card-footer text-muted">By {{blog.user.name}} {{format_date blog.date_created}}</div>
+  {{/each}}
 </div>
-{{/each}}
+
+
+<textarea></textarea>
+
+<script src="/js/blog.js"></script>

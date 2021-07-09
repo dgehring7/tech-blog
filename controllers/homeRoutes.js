@@ -49,7 +49,7 @@ router.get('/blog/:id', withAuth, async (req, res) => {
 
     const blog = blogData.get({ plain: true });
 
-    res.render('blog', {
+    res.render('comment', {
       ...blog,
       logged_in: req.session.logged_in
     });

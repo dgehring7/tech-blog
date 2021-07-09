@@ -5,12 +5,13 @@ router.post('/signup', async (req, res) => {
     try {
     console.log('signed up');
         console.log("got a post");
+        console.log('req.body.name', req.body);
       const userData = await User.create ({
-          name: req.body.name, 
+          name: req.body.username, 
           password: req.body.password,
           email: req.body.email
         });
-  
+        console.log(userData);
       req.session.save(() => {
         req.session.id = userData.id;
         req.session.logged_in = true;
@@ -19,20 +20,20 @@ router.post('/signup', async (req, res) => {
         res.json(userData);
       });
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(err.message);
     }
   });
 
   router.post('/login', async (req, res) => {
     try {
-        console.log('logged up');
-        const validName = await User.findOne({where: {name: req.body.name}});
+        console.log('logged in');
+        const validName = await User.findOne({where: {email: req.body.email}});
         // console.log('user',validUsername);
         if (!validName) {
             res.status(400).json({ message: 'Password or Username is incorrect, please try again'});
             return;
         }
-        console.log('req.body.password',req.body.password);
+        console.log('req.body.password', req.body.password);
         
         const validPassword = await validName.checkPassword(req.body.password);
         
