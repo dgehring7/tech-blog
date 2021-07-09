@@ -27,6 +27,31 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/blogs', async (req, res) => {
+  try {
+    // Get all blogs and JOIN with user data
+    const blogData = await Blog.create({
+      include: [
+        {
+          model: Blog,
+          attributes: ['title', 'blog_post', 'date_created'],
+        },
+      ],
+    });
+
+    // Serialize data so the template can read it
+    const blogs = blogData.map((blog) => blog.get({ plain: true }));
+
+    // Pass serialized data and session flag into template
+    res.render('createBlog', { 
+      blogs, 
+      logged_in: req.session.logged_in 
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router.get('/blog/:id', withAuth, async (req, res) => {
   try {
     const blogData = await Blog.findByPk(req.params.id, {
