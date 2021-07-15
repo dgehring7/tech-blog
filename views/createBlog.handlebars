@@ -1,46 +1,43 @@
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <p>Create a new blog post:</p>
-      <form class="form new-post-form">
-        <div class="form-group">
-          <label for="post-name">Title:</label>
-          <input class="form-input" type="text" id="post-name" name="post-name" />
-        </div>
-        <div class="form-group">
-          <label for="post-description">Description:</label>
-          <textarea class="form-input" id="post-description" name="post-content" placeholder="Enter a brief description:"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="post-content">Content:</label>
-          <textarea class="form-input" id="post-content" name="post-content"></textarea>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary">Post</button>
-        </div>
-      </form>
+<h1>Tech Blog</h1>
+<br/>
+<h2>{{blog.title}}</h2>
+
+<div class="container" id="target-div">
+    <div class="card border-success text-dark">
+      <div class="card-header">{{blog.user}} {{blog.date}}</div>
+      <div class="card-body">
+        <p class="card-text">{{blog.body}}</p>
+        {{#if logged_in}}
+          {{#if owner}}
+            <button class="btn text-dark btn-light" id="reply-btn">Comment</button>
+            <a class="btn btn-success" id="edit-btn" href={{blog.route}}>Edit</a>
+            <button class="btn btn-danger" id="del-btn" value={{blog.id}}>Delete</button>
+          {{else}}
+            <button class="btn text-dark btn-light" id="reply-btn">Comment</button>
+          {{/if}}
+        {{/if}}
+      </div>
     </div>
-  </div>
 </div>
 
-{{#if blog.length}}
-<div class="container post-list">
-<h2>Current Blog Posts:</h2>
-{{#each blogs as |blog|}}
-<div class="card text-center padding-bottom">
-  <div class="card-body">
-    <h5 class="card-title">{{name}}</h5>
-    <p class="card-text">
-      {{blog_post}}
-    </p>
-    <a href="/blog/{{blog.id}}" class="btn btn-success">View Post</a>
-    <a href="/update/{{blog.id}}" class="btn btn-warning">Update</a>
-    <button id="update" class="btn btn-danger" data-id="{{post.id}}">Update</button>
-    <button id="delete" class="btn btn-danger" data-id="{{blog.id}}">Delete</button>
+<div id = "reply-div">
+   <form class="w-50">
+    <div class="mb-3">
+      <label for="inputBody" class="form-label">Body</label>
+      <textarea type="body" class="form-control" id="inputBody" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" id="submit-btn" value={{blog.id}}>Submit</button>
+     <button type="cancel" class="btn btn-danger" id="cancel-btn">Cancel</button>
+  </form>
+</div>
+
+{{#each comments as |comment|}}
+  <div class="card w-50 text-dark bg-light">
+    <div class="card-header">{{user_id}} {{date}}</div>
+    <div class="card-body">
+      <p class="card-text">{{body}}</p>
+    </div>
   </div>
-  <div class="card-footer text-muted">{{format_date date_created}}</div>
-</div>
 {{/each}}
-{{/if}}
-</div>
-<script src="/js/dashboard.js"></script>
+
+<script src="/js/blog.js"></script>
