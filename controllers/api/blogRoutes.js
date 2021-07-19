@@ -3,7 +3,24 @@ const { Blog } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // blogpost
+router.post('/blogs/createBlog', (req, res) => {
+  console.log('it works!');
+  res.render('createBlog', {title: 'Create a new Blog'});
+});
+
+router.get("/blogs", async (req, res) => {
+  try {
+    const blogData = await Blog.findAll()
+    const blogs = blogData.map((blog) => blog.get({plain: true}));
+    res.status(200).json(blogs);
+  }
+  catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 router.post('/blogs', withAuth, async (req, res) => {
+  console.log('Heres a blog');
     try {
       const newBlog = await Blog.create({
         ...req.body,
@@ -16,18 +33,7 @@ router.post('/blogs', withAuth, async (req, res) => {
     }
   });
 
-  router.get("/blogs", async (req, res) => {
-    try {
-      const blogData = await Blog.findAll()
-      const blogs = blogData.map((blog) => blog.get({plain: true}));
-      res.status(200).json(blogs);
-    }
-    catch (err) {
-      res.status(400).json(err);
-    }
-  });
-
-  router.delete('/:id', withAuth, async (req, res) => {
+  router.delete('/blogs/:id', withAuth, async (req, res) => {
     try {
       const blogData = await Blog.destroy({
         where: {
@@ -47,7 +53,7 @@ router.post('/blogs', withAuth, async (req, res) => {
   });
   
 
-router.put('/:id', withAuth, async (req, res) => {
+router.put('/blogs/:id', withAuth, async (req, res) => {
     try {
       const blogData = await Blog.update( 
         {
