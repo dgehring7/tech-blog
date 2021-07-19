@@ -3,7 +3,7 @@ const { Blog } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // blogpost
-router.post('/', withAuth, async (req, res) => {
+router.post('/blogs', withAuth, async (req, res) => {
     try {
       const newBlog = await Blog.create({
         ...req.body,
@@ -16,16 +16,16 @@ router.post('/', withAuth, async (req, res) => {
     }
   });
 
-  // router.get("/", async (req, res) => {
-  //   try {
-  //     const blogData = await Blog.findAll()
-  //     const blogs = blogData.map((blog) => blog.get({plain: true}));
-  //     res.status(200).json(blogs);
-  //   }
-  //   catch (err) {
-  //     res.status(400).json(err);
-  //   }
-  // });
+  router.get("/blogs", async (req, res) => {
+    try {
+      const blogData = await Blog.findAll()
+      const blogs = blogData.map((blog) => blog.get({plain: true}));
+      res.status(200).json(blogs);
+    }
+    catch (err) {
+      res.status(400).json(err);
+    }
+  });
 
   router.delete('/:id', withAuth, async (req, res) => {
     try {
